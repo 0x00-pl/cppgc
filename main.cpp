@@ -26,7 +26,7 @@ void f(int n){
 
 
 int main(int argc, char **argv) {
-  vector<thread> tp;
+  /*vector<thread> tp;
   for(int i=0; i<1000; i++){
     tp.push_back(thread(f,i));
   }
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
   glock=true;
   for(thread& t : tp){
     t.join();
-  }
+  }*/
   std::cout << "Hello, world!" << std::endl;
   return 0;
 }
