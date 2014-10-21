@@ -22,6 +22,9 @@ namespace pl{
     virtual bool leaf(){
       return true;
     }
-    
   };
+  
+  namespace gc__nomove__mark_sweep__vector_store{}
+  namespace gc__nomove__mark_sweep__list_store{}
+  namespace gc__move__copy_free__mark_sweep__list_store{}
 }
