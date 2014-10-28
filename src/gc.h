@@ -13,7 +13,7 @@ namespace pl{
     typedef void handle(gc_common*p);
     int64_t flags;
     
-    virtual~gc_common(){}
+    virtual~gc_common()= default;
     virtual void each(function<handle> f){}
     virtual operator const string&(){
       static string ret("gc_common");
