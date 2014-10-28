@@ -1,9 +1,11 @@
-#include <iostream>
-#include <thread>
 #include <chrono>
-#include <vector>
+#include <iostream>
 #include <mutex>
+#include <thread>
+#include <vector>
 using namespace std;
+#include "src/gc.h"
+#include "src/parser.h"
 
 mutex Mstdout;
 bool glock=false;
@@ -24,8 +26,32 @@ void f(int n){
 }
 
 
+
+
+
+
+
+
+
+
+
+
 int main(int argc, char **argv) {
   
-  std::cout << "Hello, world!" << std::endl;
+  int n=0;
+  std::cout << "Hello, world!"<< (++n and ++n) << std::endl;
+  
+  
+  for(auto i : "Hello, world!"){
+    std::cout<<i<<endl;
+  }
+  
+  /*
+    token_type type;
+    string text;
+    string filename;
+    size_t ln;
+    size_t ch;*/
+  pl::token t= pl::token({pl::token_type::number,"","",1,1});
   return 0;
 }
