@@ -43,7 +43,7 @@ namespace pl{
     for(string line : lines){
       ++ln;
       const char* p= line.c_str();
-      for(size_t ch=0; *p; ++ch,++p){
+      for(const char* pbeg=p; *p; ++p){
 	if(_space(*p)){
 	  while(_space(p[1])){
 	    ++p;
@@ -54,23 +54,23 @@ namespace pl{
 	  while(p[0]!='"' and p[-1]!='\\')
 	    ++p;
 	  const char* end=p;
-	  ret.push_back({token_type::str,string(beg,end),filename,ln,ch-(end-beg)});
+	  ret.push_back({token_type::str,string(beg,end),filename,ln,size_t((p-pbeg)-(end-beg))});
 	}else if(_diget(*p)){
 	  const char* beg=p;
 	  while(_diget(*p) or ((p[0]=='e' or p[0]=='E') and _diget(p[1])))
 	    ++p;
 	  const char* end=p;
-	  ret.push_back({token_type::number,string(beg,end),filename,ln,ch-(end-beg)});
+	  ret.push_back({token_type::number,string(beg,end),filename,ln,size_t((p-pbeg)-(end-beg))});
 	  --p;
 	}else if(_op(*p)){
-	  ret.push_back({token_type::op,string(1,*p),filename,ln,ch});
+	  ret.push_back({token_type::op,string(1,*p),filename,ln,size_t((p-pbeg))});
 	}else{
 	  const char* beg=p;
-	  while(_space(*p) or _op(*p)){
+	  while(!_space(*p) and !_op(*p)){
 	    ++p;
 	  }
 	  const char* end=p;
-	  ret.push_back({token_type::symbol,string(beg,end),filename,ln,ch-(end-beg)});
+	  ret.push_back({token_type::symbol,string(beg,end),filename,ln,size_t((p-pbeg)-(end-beg))});
 	  --p;
 	}
       }
