@@ -35,7 +35,7 @@ namespace pl{
     return (c>='0' and c<='9') or c=='.';
   }
   bool _op(char c){
-    return c=='(' or c==')';
+    return c=='(' or c==')' or c==':';
   }
   vector<token> tokenlize(vector<string> lines, string filename = "no-file"){
     vector<token> ret;
