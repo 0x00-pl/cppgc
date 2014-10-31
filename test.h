@@ -12,6 +12,7 @@ namespace pl{
 	"i(0)",
 	"j(+ i 1)"
       };
+
       auto r= tokenlize(vector<string>(f1,f1+2));
       cout<<endl;
       for(auto i : r){

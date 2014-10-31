@@ -87,4 +87,8 @@ namespace pl{
   }
   namespace gc__nomove__mark_sweep__list_store{}
   namespace gc__move__copy_free__mark_sweep__list_store{}
+  
+  //typedef gc__nomove__mark_sweep__vector_store::pgc pgc;
+  //void manage(pgc p)=gc__nomove__mark_sweep__vector_store::manage;
+  //void collect(pgc root)=gc__nomove__mark_sweep__vector_store::collect;
 }

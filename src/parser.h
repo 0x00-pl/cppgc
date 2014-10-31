@@ -1,6 +1,8 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <vector>
+#include "gc.h"
 
 using namespace std;
 
@@ -77,4 +79,19 @@ namespace pl{
     }
     return move(ret);
   }
+  
+  void default_syntex_token_error(token t, string msg){
+    cout<<"syntex error at  ln: "<<t.ln<<" ,  ch: "<<t.ch<<endl;
+    cout<<"    "<<t.text<<endl;
+    cout<<"    "<<msg<<endl;
+  }
+  void default_syntex_error(string msg){
+    cout<<"    "<<msg<<endl;
+  }
+  /**
+   * exp :: number|str|symbol|symbol:exp|(exp*)
+   */
+  //pl::pgc make_exp(vector<token> tokens){
+    
+  //}
 }
