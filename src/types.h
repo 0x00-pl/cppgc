@@ -13,7 +13,7 @@ namespace pl{
       number(pl::number v):val(v){}
       pl::number val;
       virtual operator string(){
-	return str(val);
+	return pl::str(val);
       }
       virtual operator bool(){
 	return (bool)val;
@@ -71,7 +71,7 @@ namespace pl{
 	}
       }
       virtual operator string(){
-	static string ret("(");
+	string ret("(");
 	map<size_t,string> nametab_refback;
 	if(nametab!=nullptr){
 	  for(const auto& i : *nametab){

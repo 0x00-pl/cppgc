@@ -101,8 +101,8 @@ namespace pl{
       switch(tokens->type){
 	case token_type::number:
 	  ret= manage(new ptp::number(atoi(tokens->text.c_str())));
-	  ++tokens;	
-	  break;
+	  ++tokens;
+	  return ret;
 	case token_type::op:
 	  switch(tokens->text[0]){
 	    case '(':{
@@ -112,7 +112,7 @@ namespace pl{
 	      while(true){
 		pgc item= make_exp(tokens,end);
 		if(item==nullptr){
-		  break;
+		  return ret;
 		}
 		if(tokens->text[0]==':'){
 		  ++tokens;
@@ -123,7 +123,7 @@ namespace pl{
 		  pexp->push(item);
 		}
 	      }
-	      break;
+	      return ret;
 	    }
 	    case ')':
 	      ++tokens;
@@ -133,15 +133,15 @@ namespace pl{
 	      default_syntex_token_error(*tokens,"wtf@");
 	      return nullptr;
 	  }
-	  break;
+	  return ret;
 	case token_type::str: 
 	  ret= manage(new ptp::str(tokens->text));
 	  ++tokens;
-	  break;
+	  return ret;
 	case token_type::symbol:
 	  ret= manage(new ptp::symbol(tokens->text));
 	  ++tokens;
-	  break;
+	  return ret;
       }
     }
     return ret;

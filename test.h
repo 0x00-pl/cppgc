@@ -19,7 +19,7 @@ namespace pl{
 	cout<<i.text<<' ';
       }
       cout<<endl;
-      //test make_exp()
+      //test make_exp() [fix up]
       auto pe= r.begin();
       auto e= make_exp(pe, r.end());
       cout<<string(*e)<<endl;
