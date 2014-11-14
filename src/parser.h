@@ -92,12 +92,16 @@ namespace pl{
   /**
    * exp :: number|str|symbol|(symbol:exp|exp *)
    */
-  pl::pgc make_exp(vector<token>::iterator& tokens, const vector<token>::iterator& end){
-    pgc ret;
-    while(tokens!=end){
+  pl::pgc make_exp(vector<token>::iterator& tokens, vector<token>::iterator end){
+    pgc ret= nullptr;
+    while(tokens->type==token_type::space){
+      ++tokens;
+    }
+    if(tokens!=end){
       switch(tokens->type){
 	case token_type::number:
 	  ret= manage(new ptp::number(atoi(tokens->text.c_str())));
+	  ++tokens;	
 	  break;
 	case token_type::op:
 	  switch(tokens->text[0]){
@@ -107,6 +111,9 @@ namespace pl{
 	      ++tokens;
 	      while(true){
 		pgc item= make_exp(tokens,end);
+		if(item==nullptr){
+		  break;
+		}
 		if(tokens->text[0]==':'){
 		  ++tokens;
 		  string name= *item;
@@ -119,22 +126,24 @@ namespace pl{
 	      break;
 	    }
 	    case ')':
+	      ++tokens;
 	      return nullptr;
-	      break;
 	    case ':':
-	      break;
+	      ++tokens;
+	      default_syntex_token_error(*tokens,"wtf@");
+	      return nullptr;
 	  }
-	  break;
-	case token_type::space:
 	  break;
 	case token_type::str: 
 	  ret= manage(new ptp::str(tokens->text));
+	  ++tokens;
 	  break;
 	case token_type::symbol:
 	  ret= manage(new ptp::symbol(tokens->text));
+	  ++tokens;
 	  break;
       }
-      ++tokens;
     }
+    return ret;
   }
 }

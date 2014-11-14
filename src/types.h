@@ -82,7 +82,7 @@ namespace pl{
 	  if(nametab_refback.find(i)!=nametab_refback.end()){
 	    ret+= nametab_refback[i]+ ":";
 	  }
-	  ret+= string(*e[i])+", ";
+	  ret+= string(*e[i])+" ";
 	}
 	return ret+")";
       }
