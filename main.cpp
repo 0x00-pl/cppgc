@@ -3,6 +3,7 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <map>
 using namespace std;
 #include "src/gc.h"
 #include "src/parser.h"
@@ -45,5 +46,15 @@ int main(int argc, char **argv) {
     size_t ln;
     size_t ch;*/
   pl::token t= pl::token({pl::token_type::number,"","",1,1});
+  cout<<sizeof(map<int,int>*)<<endl;
+  cout<<sizeof(vector<int>)<<endl;
+  
+  map<int,int> s;
+  s[1]=1;
+  s[2]=2;
+  for(const auto& i : s){
+    cout<<i.first<<i.second<<endl;
+  }
+  s.find(1);
   return 0;
 }
