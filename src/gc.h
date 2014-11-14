@@ -5,9 +5,16 @@
 #include <functional>
 #include <mutex>
 #include <thread>
+#include <sstream>
 using namespace std;
 
 namespace pl{
+  template<typename T>
+  string str(const T& v){
+    stringstream ss;
+    ss<<v;
+    return ss.str();
+  }
   class gc_common{
   public:
     typedef void handle(gc_common*p);
@@ -15,7 +22,7 @@ namespace pl{
     
     virtual~gc_common()= default;
     virtual void each(function<handle> f){}
-    virtual operator const string&(){
+    virtual operator string(){
       static string ret("gc_common");
       return ret;
     }
@@ -32,11 +39,12 @@ namespace pl{
     vector<pgc> pool;
     vector<pgc> mark_stack;
     mutex pool_m;
-    void manage(pgc p){
+    pgc manage(pgc p){
       pool_m.lock();
       p->flags=1;
       pool.push_back(p);
       pool_m.unlock();
+      return p;
     }
     void mark(pgc root){
       pool_m.lock();
@@ -88,7 +96,7 @@ namespace pl{
   namespace gc__nomove__mark_sweep__list_store{}
   namespace gc__move__copy_free__mark_sweep__list_store{}
   
-  //typedef gc__nomove__mark_sweep__vector_store::pgc pgc;
-  //void manage(pgc p)=gc__nomove__mark_sweep__vector_store::manage;
-  //void collect(pgc root)=gc__nomove__mark_sweep__vector_store::collect;
+  typedef gc__nomove__mark_sweep__vector_store::pgc pgc;
+  pgc manage(pgc p){return gc__nomove__mark_sweep__vector_store::manage(p);}
+  void collect(pgc root){gc__nomove__mark_sweep__vector_store::collect(root);}
 }

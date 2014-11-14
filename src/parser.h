@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "gc.h"
+#include "types.h"
 
 using namespace std;
 
@@ -89,9 +90,51 @@ namespace pl{
     cout<<"    "<<msg<<endl;
   }
   /**
-   * exp :: number|str|symbol|symbol:exp|(exp*)
+   * exp :: number|str|symbol|(symbol:exp|exp *)
    */
-  //pl::pgc make_exp(vector<token> tokens){
-    
-  //}
+  pl::pgc make_exp(vector<token>::iterator& tokens, const vector<token>::iterator& end){
+    pgc ret;
+    while(tokens!=end){
+      switch(tokens->type){
+	case token_type::number:
+	  ret= manage(new ptp::number(atoi(tokens->text.c_str())));
+	  break;
+	case token_type::op:
+	  switch(tokens->text[0]){
+	    case '(':{
+	      ptp::exp* pexp= new ptp::exp();
+	      ret= manage(pexp);
+	      ++tokens;
+	      while(true){
+		pgc item= make_exp(tokens,end);
+		if(tokens->text[0]==':'){
+		  ++tokens;
+		  string name= *item;
+		  item= make_exp(tokens,end);
+		  pexp->push(name,item);
+		}else{
+		  pexp->push(item);
+		}
+	      }
+	      break;
+	    }
+	    case ')':
+	      return nullptr;
+	      break;
+	    case ':':
+	      break;
+	  }
+	  break;
+	case token_type::space:
+	  break;
+	case token_type::str: 
+	  ret= manage(new ptp::str(tokens->text));
+	  break;
+	case token_type::symbol:
+	  ret= manage(new ptp::symbol(tokens->text));
+	  break;
+      }
+      ++tokens;
+    }
+  }
 }
